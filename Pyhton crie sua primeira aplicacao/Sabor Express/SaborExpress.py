@@ -1,6 +1,6 @@
 import os
 
-restaurantes = []
+restaurantes = ['Sushi','Pizza','Macarrão']
 
 
 def exibir_nome_programa():
@@ -20,28 +20,33 @@ def menu():
 
 def finalizar_app():
     os.system('exit')
-    os.system('cls')
-    print('Finalizando o app\n')
+    exibir_titulo('Finalizando o app\n')
+    
+def voltar_ao_menu():
+    input('\nDigite um caracter para voltar ao menu principal ')
+    main()
 
 def opcao_invalida():
     print('Opção invalida\n')
-    input('Digite um caracter para voltar ao menu principal')
-    main()
+    voltar_ao_menu()
+    
+def exibir_titulo(texto):
+    os.system('cls')
+    print(texto)
+
 
 def cadastrar_restaurante():
-    os.system('cls')
-    print('\nCadastro de Restaurante\n')
+    exibir_titulo('\nCadastro de Restaurante\n')
     nome_restaurante = input('Digite o nome do restaurante: ')
     restaurantes.append(nome_restaurante)
     print(f'\nO restaurente {nome_restaurante} foi cadastrado com sucesso\n')
-    input('Digite uma tecla para voltar ao menu principal')
-    main()
+    voltar_ao_menu()
 
 def listar_restaurante():
-    for item in restaurantes: 
-        print('\n'+ item)
-    input('Digite uma tecla para voltar ao menu principal')
-    main()
+    exibir_titulo('\nListar Restaurantes')
+    for restaurante in restaurantes: 
+        print(f'- {restaurante}')
+    voltar_ao_menu()
 
 
 def escolher_op_switch():
@@ -53,6 +58,7 @@ def escolher_op_switch():
                 cadastrar_restaurante()
             case 2:
                 print('Listar restaurantes')
+                listar_restaurante()
             case 3:
                 print('Ativar restaurante')
             case 4:
@@ -61,7 +67,7 @@ def escolher_op_switch():
             case _:
                 opcao_invalida()
     except ValueError:
-        opcao_invalida
+        opcao_invalida()
     
 
 def main():
