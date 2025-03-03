@@ -21,153 +21,136 @@ for dados in informacoes_gerais:
 # Remova um item do dicionário.
 
 """
-"""
-# por tal dos assinantes não esta funcionando tela branca 
-informacoes_gerais = [{'nome':'Pessoa1','idade': 20 ,'cidade':'Petrolina','profissao':''},
-                      {'nome':'Pessoa2','idade': 18 ,'cidade':'São Paulo','profissao':'Progamador'},
-                      {'nome':'Pessoa3','idade': 35 ,'cidade':'Maceio','profissao':'Engenhiro Alimentar'},
-                      ]
+
+
+informacoes_gerais = [
+    {'nome': 'Pessoa1', 'idade': 20, 'cidade': 'Petrolina', 'profissao': ''},
+    {'nome': 'Pessoa2', 'idade': 18, 'cidade': 'São Paulo', 'profissao': 'Programador'},
+    {'nome': 'Pessoa3', 'idade': 35, 'cidade': 'Maceió', 'profissao': 'Engenheiro Alimentar'}
+]
+
 def menu():
     print('\n')
     print('.1 Adicione um Item')
     print('.2 Modifica os itens')
-    print('.3 Adiciona uma profissao')
+    print('.3 Adiciona uma profissão')
     print('.4 Lista as pessoas')
     print('.5 Remove uma das categorias')
 
 def voltar_ao_menu():
-    input('\nDigite um caracter para voltar ao menu principal ')
-    main()
+    input('\nDigite um caractere para voltar ao menu principal ')
+    menu()
+    menu_switch()
 
 def menu_switch():
     try:
-        resposta = int(input('Escolha sua operação'))
+        resposta = int(input('Escolha sua operação: '))
         match resposta:
             case 1:
                 adcionar_item()
-        match resposta:
             case 2:
                 modificar_itens()
-        match resposta:
             case 3:
                 adiciona_profissao()
-        match resposta:
             case 4:
-                listar_item
-        match resposta:
+                listar_item()
             case 5:
                 remover()
+            case _:
+                print('Opção inválida. Tente novamente.')
+                menu_switch()
+    except ValueError:
+        print('Entrada inválida')
+        menu_switch()
 
-    except: ValueError
+def listar_item():
+    print('\nListar Itens\n')
+    for dados in informacoes_gerais:
+        nome = dados['nome']
+        idade = dados['idade']
+        cidade = dados['cidade']
+        profissao = dados['profissao'] if dados['profissao'] else "Sem profissão"
+        print(f'- {nome}, {idade} anos, mora em {cidade} e trabalha como {profissao}')
+    voltar_ao_menu()
 
 def adcionar_item():    
     print('\nAdicione um Item')
     nome = input('Digite seu nome: ')
     idade = int(input('Digite sua idade: '))
     cidade = input('Digite sua cidade: ')
-    boolean = input('Gostaria de adicionar uma profissão S ou N?')
-    if boolean == 'S' | 's':
-        profissao = input('Digite sua profisssão: ')
-    else:
+    profissao = ''
+    boolean = input('Gostaria de adicionar uma profissão (S/N)? ').strip().upper()
+    if boolean == 'N':
         print('Voltando ao menu')
         menu()
-    for dados_item in informacoes_gerais:
-        if nome == informacoes_gerais['nome']:
-            print('Nome já cadastrado, cadastre novamente')
-            adcionar_item()
-        else:
-            dados_item =[{'nome': nome, 'idade' : idade, 'cidade' : cidade, 'profissao' : profissao}]
-            informacoes_gerais.append(dados_item) 
-    print(f'\n {nome} foi cadastrado com sucesso')
+    else:
+        profissao = input('Digite sua profissão: ')
+    informacoes_gerais.append({'nome': nome, 'idade': idade, 'cidade': cidade, 'profissao': profissao})
+    print(f'\n{nome} foi cadastrado com sucesso')
     voltar_ao_menu()
 
 def modificar_itens():
     print('\nModificar itens\n')
-    nome_busca = input('Digite o nome da pessoa a ser alaterado os itens: ')
-    nome_encontrato = False
+    nome_busca = input('Digite o nome da pessoa a ser alterado os itens: ')
     for dados in informacoes_gerais:
         if nome_busca == dados['nome']:
-            nome_encontrato = True
             print('\n1. Alterar o nome')
-            print('2. Alterar o idade')
-            print('3. Alterar o cidade')
-            print('4. Alterar o profissao')
+            print('2. Alterar a idade')
+            print('3. Alterar a cidade')
+            print('4. Alterar a profissão')
             try:
-                escolha = int(input('Escolha '))
+                escolha = int(input('Escolha: '))
                 match escolha:
                     case 1:
-                        novo_nome = input(f'Digite seu novo de {nome_busca} nome: ')
-                        dados['nome'] = novo_nome
-                        print(f'O nome foi alterado com sucesso para {novo_nome}')
-                        voltar_ao_menu()
+                        dados['nome'] = input(f'Digite o novo nome para {nome_busca}: ')
                     case 2:
-                        nova_idade = int(input(f'Digite sua nova idade'))
-                        dados['idade'] = nova_idade
-                        print(f'A idade de {nome_busca} foi alterada para {nova_idade}')
-                        voltar_ao_menu()
+                        dados['idade'] = int(input(f'Digite a nova idade de {nome_busca}: '))
                     case 3:
-                        nova_cidade = input('Digite sua nova cidade: ')
-                        dados['cidade'] = nova_cidade
-                        print(f'A cidade de {nome_busca} foi alterada para {nova_cidade}')
-                        voltar_ao_menu()
+                        dados['cidade'] = input(f'Digite a nova cidade de {nome_busca}: ')
                     case 4:
-                        nova_profissao = input(f'Digite a sua nova profissão para o {nome_busca}: ')
-                        dados['profissao'] = nova_profissao
-                        print(f'A profissao de {nome_busca} foi alterada para {nova_profissao}')
-                        voltar_ao_menu()
-            except: ValueError
-            print('Entrada inválida. Tente novamente.')
-            modificar_itens()
-        if not nome_encontrato:
-            print(f'Nome {nome_busca} não foi encontrado Tente Novamente')
-            modificar_itens()
-    voltar_ao_menu()
-
+                        dados['profissao'] = input(f'Digite a nova profissão de {nome_busca}: ')
+                    case _:
+                        print('Opção inválida.')
+                        modificar_itens()
+                print('Alteração realizada com sucesso!')
+                voltar_ao_menu()
+                return
+            except ValueError:
+                print('Entrada inválida. Tente novamente.')
+                modificar_itens()
+    print(f'Nome {nome_busca} não foi encontrado. Tente novamente.')
+    modificar_itens()
 
 def adiciona_profissao():
-    print('\n Adiciona profissao\n')
-    nome_busca = input('Digite o nome da pessoa')
-    nome_encontrado = False
+    print('\nAdicionar profissão\n')
+    nome_busca = input('Digite o nome da pessoa: ')
     for dados in informacoes_gerais:
-        if nome_busca == dados[{'nome'}]:
-            nome_encontrado = True
-            nova_profissao =  input(f'Digite a nova profissao do(a) {nome_encontrado} ')
-            dados ['profissao'] == nova_profissao
-            print(f'A profissão de {nome_busca} foi atualizada para {nova_profissao}')
-        break
-    if not nome_encontrado:
-        print(f'nome {nome_busca} não encontrado tente outro')
-        adiciona_profissao()
-
-
-def listar_item():
-    print('\n Listar Itens\n')
-    for dados in informacoes_gerais:
-        nome = dados['nome']
-        idade = dados['idade']
-        cidade = dados['cidade']
-        profissao = '' if dados['Sem profissao'] else dados['profissao']
-        print(f'- O ou A {nome} com idade de {idade} mora na{cidade} e trabalha com {profissao}')
-        voltar_ao_menu()
+        if nome_busca == dados['nome']:
+            dados['profissao'] = input(f'Digite a nova profissão para {nome_busca}: ')
+            print(f'A profissão de {nome_busca} foi atualizada.')
+            voltar_ao_menu()
+            return
+    print(f'Nome {nome_busca} não encontrado. Tente novamente.')
+    adiciona_profissao()
 
 def remover():
-    print('\n Remover itens')
-    nome_busca = input('Digite o nome para deletar seus dados')
-    nome_encontrato = False
+    print('\nRemover itens')
+    nome_busca = input('Digite o nome para deletar seus dados: ')
     for i, dados in enumerate(informacoes_gerais):
         if nome_busca == dados['nome']:
-            nome_encontrato = True
             del informacoes_gerais[i]
-        print(f'Os dados de {nome_busca} foram removidos')
-        break        
-    if not nome_encontrato:
-        print('Não foi encontrado nenhuma pessoa com este nome')
+            print(f'Os dados de {nome_busca} foram removidos.')
+            voltar_ao_menu()
+            return
+    print('Não foi encontrada nenhuma pessoa com este nome.')
     voltar_ao_menu()
 
 def main():
-    os.system('cls')
+    os.system('cls' if os.name == 'nt' else 'clear')
     menu()
     menu_switch()
 
 if __name__ == '__main__':
     main()
+
+"""
